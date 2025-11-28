@@ -1,4 +1,5 @@
 # src/fairness.py
+
 import numpy as np
 import pandas as pd
 
@@ -26,6 +27,7 @@ def demographic_parity(y_pred, sensitive):
     dp_diff = max(vals) - min(vals) if len(vals) > 1 else 0.0
 
     return rates, dp_diff
+
 
 def equalized_odds(y_true, y_pred, sensitive):
     """

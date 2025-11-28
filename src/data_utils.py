@@ -1,36 +1,25 @@
 # src/data_utils.py
+
 import pandas as pd
-import numpy as np
-from .config import DATA_PATH, TARGET_COL, COLUMN_NAMES
-
-def load_raw_data():
-    # No header in file → header=None, names=...
-    df = pd.read_csv(
-        DATA_PATH,
-        header=None,
-        names=COLUMN_NAMES
-    )
-
-    # In original UCI, missing values are '?'
-    df = df.replace("?", np.nan)
-
-    return df
+from .config import COL_NAMES, TARGET_COL, NUMERIC_COLS
 
 def clean_data():
-    df = load_raw_data()
+   
+    df = pd.read_csv(
+        "data/uci_credit_approval.csv",
+        header=None,
+        names=COL_NAMES,
+        na_values="?",
+    )
 
-    # Map '+' / '-' to 1 / 0
-    if df[TARGET_COL].dtype == "object":
-        df[TARGET_COL] = df[TARGET_COL].map({"+": 1, "-": 0})
-
-    # Drop rows with missing target
-    df = df.dropna(subset=[TARGET_COL])
-
-    # Simple cleaning: drop rows with any NaNs (you can switch to imputation later)
+    # Drop rows with missing values for simplicity
     df = df.dropna().reset_index(drop=True)
 
-    # Ensure int labels
-    df[TARGET_COL] = df[TARGET_COL].astype(int)
+    # Convert numeric columns to float
+    for col in NUMERIC_COLS:
+        df[col] = df[col].astype(float)
+
+    # Convert target '+'/'-' to 1/0
+    df[TARGET_COL] = df[TARGET_COL].map({"+": 1, "-": 0}).astype(int)
 
     return df
-

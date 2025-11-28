@@ -1,32 +1,33 @@
 # src/config.py
 
-DATA_PATH = "data/uci_credit_approval.csv"  # your raw file
-
-# Give proper names to the 16 columns (15 attrs + class)
-COLUMN_NAMES = [
-    "A1", "A2", "A3", "A4", "A5",
-    "A6", "A7", "A8", "A9", "A10",
-    "A11", "A12", "A13", "A14", "A15",
-    "Approved"
+# Column names for the UCI Credit Approval (crx) dataset
+# https://archive.ics.uci.edu/ml/datasets/credit+approval
+COL_NAMES = [
+    "A1",  # categorical
+    "A2",  # numeric
+    "A3",  # numeric
+    "A4",  # categorical
+    "A5",  # categorical
+    "A6",  # categorical
+    "A7",  # categorical
+    "A8",  # numeric
+    "A9",  # categorical
+    "A10", # categorical
+    "A11", # numeric
+    "A12", # categorical
+    "A13", # categorical
+    "A14", # numeric
+    "A15", # numeric
+    "A16", # target: '+' or '-'
 ]
 
-TARGET_COL = "Approved"   # last column, '+' or '-'
+TARGET_COL = "A16"
+SENSITIVE_COL = "A1"  # we'll treat A1 as sensitive attribute
 
-# Let's treat A1 as the sensitive attribute (it's often used as a gender-like attr)
-SENSITIVE_COL = "A1"
+# Numeric columns based on dataset description
+NUMERIC_COLS = ["A2", "A3", "A8", "A11", "A14", "A15"]
 
-# Numeric attributes in original UCI documentation
-NUMERIC_COLS = [
-    "A2",   # e.g., Age
-    "A3",   # Debt
-    "A8",   # YearsEmployed
-    "A11",  # CreditScore-ish
-    "A14",  # Zip/income-ish
-    "A15"   # Income
-]
-
-# Remaining as categorical
+# All other feature columns (except target) are categorical
 CATEGORICAL_COLS = [
-    "A1", "A4", "A5", "A6", "A7",
-    "A9", "A10", "A12", "A13"
+    "A1", "A4", "A5", "A6", "A7", "A9", "A10", "A12", "A13"
 ]
