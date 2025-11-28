@@ -60,21 +60,6 @@ def train_model(test_size=0.2, random_state=42):
     return clf, eval_data
 
 
-# ===== Additional functions for fairness and SHAP =====
-def compute_shap_values(clf, X, nsamples=100):
-    """
-    Compute SHAP values for the given model and dataset.
-    """
-    preprocessor = clf.named_steps["preprocess"]
-    model = clf.named_steps["model"]
-
-    X_trans = preprocessor.transform(X)
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X_trans)[1]  # class 1
-
-    return shap_values, explainer.expected_value[1]
-
-
 def predict_with_threshold(clf, X, threshold=0.5):
     """
     Predict class labels based on a custom probability threshold.

@@ -101,7 +101,8 @@ def main():
         feature_cols = NUMERIC_COLS + CATEGORICAL_COLS
         X_sample = sample[feature_cols]
 
-        shap_vals, expected_value = compute_shap_values(clf, X_sample)
+        
+        shap_vals, expected_value, X_trans = compute_shap_values(clf, X_sample)
 
         st.write("### Global Feature Importance (SHAP Summary Plot)")
         # Transform features for SHAP summary plot

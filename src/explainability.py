@@ -9,10 +9,10 @@ def compute_shap_values(pipeline, X_sample):
     preprocess = pipeline.named_steps["preprocess"]
     model = pipeline.named_steps["model"]
 
-    # Transform features
+    # Transform features (this is what the model actually sees)
     X_trans = preprocess.transform(X_sample)
 
-    # TreeExplainer works well for RandomForest
+    # TreeExplainer for RandomForest
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(X_trans)
 
@@ -20,4 +20,5 @@ def compute_shap_values(pipeline, X_sample):
     shap_vals_class1 = shap_values[1]
     expected_value = explainer.expected_value[1]
 
-    return shap_vals_class1, expected_value
+    
+    return shap_vals_class1, expected_value, X_trans
